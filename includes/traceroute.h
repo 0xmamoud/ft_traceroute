@@ -16,4 +16,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+bool is_help(int argc, char **argv);
+bool is_valid_args(int argc, char **argv);
+char *get_hostname(int argc, char **argv);
+
+void print_help();
+
 #endif
