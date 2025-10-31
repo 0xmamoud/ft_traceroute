@@ -16,7 +16,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define MAX_HOPS 30
+#define MAX_HOPS 64
 #define NPROBES 3
 #define PORT 33434
 #define MAX_WAIT_TIME 5
@@ -35,9 +35,14 @@ bool is_valid_args(int argc, char **argv);
 char *get_hostname(int argc, char **argv);
 
 int resolve_hostname(const char *hostname, t_config *config);
-void print_help();
 
 int create_icmp_socket();
 int create_udp_socket();
+
+int send_probe(t_config *config, int ttl, int seq);
+int receive_icmp_reply(t_config *config, char *reply_addr, double *rtt);
+
+void run_traceroute(t_config *config);
+void print_help();
 
 #endif

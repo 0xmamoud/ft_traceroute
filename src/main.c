@@ -24,6 +24,24 @@ int main(int argc, char **argv) {
     }
   }
 
-  printf("hello world!\n");
+  config.udp_sockfd = create_udp_socket();
+  if (config.udp_sockfd < 0) {
+    perror("create_udp_socket");
+    return 1;
+  }
+  config.icmp_sockfd = create_icmp_socket();
+  if (config.icmp_sockfd < 0) {
+    perror("create_icmp_socket");
+    close(config.udp_sockfd);
+    return 1;
+  }
+
+  printf("traceroute to %s (%s), %d hops max\n", config.hostname,
+         config.ip_address, MAX_HOPS);
+
+  run_traceroute(&config);
+
+  close(config.udp_sockfd);
+  close(config.icmp_sockfd);
   return 0;
 }
